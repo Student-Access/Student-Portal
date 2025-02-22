@@ -62,14 +62,15 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             transition: all 0.3s ease;
-        }
-
-        .container.light-theme-container {
-            background: linear-gradient(135deg, #ff4d4d, #ffcc00);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center-align all elements in the container */
+            justify-content: center;
         }
 
         .form-group {
             margin-bottom: 20px;
+            width: 100%;
         }
 
         label {
@@ -182,6 +183,46 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Submit Button Styles */
+        .submit-button {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #0078D4; /* OneDrive blue */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background-color: #005a9e;
+        }
+
+        /* Submit Button Container */
+        .submit-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Ensure content is centered */
+            margin-top: 30px; /* Adjust space above button */
+            width: 100%;
+        }
+
+        /* Note Styling */
+        .note {
+            margin-top: 10px;
+            font-size: 1em;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.5;
+        }
+
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .container {
@@ -280,6 +321,14 @@
 
             <button id="viewPortfolioBtn" onclick="viewPortfolio()" disabled>View Portfolio</button>
             <p id="portfolioWarning" class="warning"></p>
+
+            <!-- Submit Button Section -->
+            <div class="submit-button-container">
+                <a href="https://1drv.ms/f/s!AkChId12LHfee9o5wtozVYyZ_34?e=8q4hf6" target="_blank" class="submit-button" id="submitFilesButton">
+                    Submit Files
+                </a>
+                <p class="note">Please ensure that all your required documents and information are submitted as per the guidelines.</p>
+            </div>
         </div>
     </div>
 
@@ -293,19 +342,19 @@
             other: {
                 2001: 'https://1drv.ms/f/s!AkChId12LHfecREWrjrIje6wlts?e=YEiUfi',
                 2002: 'https://1drv.ms/f/s!AkChId12LHfedrs9fNYYCh8hxkY?e=gdtb9z',
-                2003: 'https://1drv.ms/f/s!AkChId12LHfed8CVMvYI4TOGEo8?e=sbfUrP',
+                2003: 'https://1drv.ms/f/s!AkChId12LHfed8CVMvYI4TOGEo8?e=eFwygY',
             }
         };
 
         const portfolioURLs = {
             nursing: {
-                assessment: 'https://1drv.ms/f/s!AkChId12LHfeb8OQb1CNew0rklY?e=WIe5a0',
-                discourse: 'https://1drv.ms/f/s!AkChId12LHfecEKg2V4qnym2GTw?e=2YiRYV',
+                discourse: 'https://1drv.ms/f/s!AkChId12LHfecEKg2V4qnym2GTw?e=bR2U3z',
+                assessment: 'https://1drv.ms/f/s!AkChId12LHfeb8OQb1CNew0rklY?e=jmrd65',
             },
             other: {
-                discourse: 'https://1drv.ms/f/s!AkChId12LHfeedyuSAoPX9-aCx8?e=uK9WaS',
-                assessment: 'https://1drv.ms/f/s!AkChId12LHfeeOPrWnDsD6lZ2Dw?e=rDShqS',
-            },
+                discourse: 'https://1drv.ms/f/s!AkChId12LHfeedyuSAoPX9-aCx8?e=9Cvz0R',
+                assessment: 'https://1drv.ms/f/s!AkChId12LHfeeOPrWnDsD6lZ2Dw?e=L2PiPZ',
+            }
         };
 
         function goToPortal() {
@@ -314,13 +363,13 @@
         }
 
         function viewGrades() {
-            const department = document.getElementById('department').value;
             const studentID = document.getElementById('studentID').value;
+            const department = document.getElementById('department').value;
             let url = '';
 
-            if (department === 'nursing' && studentID >= 1001 && studentID <= 1003) {
+            if (department === 'nursing') {
                 url = gradeURLs.nursing[studentID];
-            } else if (department === 'other' && studentID >= 2001 && studentID <= 2003) {
+            } else if (department === 'other') {
                 url = gradeURLs.other[studentID];
             }
 
@@ -328,23 +377,23 @@
                 window.open(url, '_blank');
             } else {
                 document.getElementById('gradesWarning').textContent = 'Invalid Department or Student ID.';
-                document.getElementById('gradesWarning').scrollIntoView({behavior: 'smooth'});
+                document.getElementById('gradesWarning').scrollIntoView({ behavior: 'smooth' });
             }
         }
 
         function viewPortfolio() {
             const department = document.getElementById('department').value;
             const portfolio = document.getElementById('portfolio').value;
-            const portfolioCode = document.getElementById('portfolioCode').value.toUpperCase();
+            const portfolioCode = document.getElementById('portfolioCode').value;
             let url = '';
             let validCode = false;
 
             if (department === 'nursing' && portfolio === 'assessmentNursing') {
                 url = portfolioURLs.nursing.assessment;
-                validCode = (portfolioCode === 'CON5601');
+                validCode = (portfolioCode === 'NC5601');
             } else if (department === 'nursing' && portfolio === 'discourseNursing') {
                 url = portfolioURLs.nursing.discourse;
-                validCode = (portfolioCode === 'CON5601');
+                validCode = (portfolioCode === 'NC5601');
             } else if (department === 'other' && portfolio === 'discourseOther') {
                 url = portfolioURLs.other.discourse;
                 validCode = (portfolioCode === 'OC5601');
@@ -353,11 +402,11 @@
                 validCode = (portfolioCode === 'OC5601');
             }
 
-            if (validCode && url) {
+            if (url && validCode) {
                 window.open(url, '_blank');
             } else {
-                document.getElementById('portfolioWarning').textContent = 'Invalid code or selection.';
-                document.getElementById('portfolioWarning').scrollIntoView({behavior: 'smooth'});
+                document.getElementById('portfolioWarning').textContent = 'Invalid Department, Portfolio, or Code.';
+                document.getElementById('portfolioWarning').scrollIntoView({ behavior: 'smooth' });
             }
         }
 
@@ -371,18 +420,15 @@
             const studentID = document.getElementById('studentID').value;
             const portfolio = document.getElementById('portfolio').value;
             const portfolioCode = document.getElementById('portfolioCode').value;
-
             const gradesBtn = document.getElementById('viewGradesBtn');
             const portfolioBtn = document.getElementById('viewPortfolioBtn');
 
-            // Enable "View Grades" button if both department and ID are selected
             if (department && studentID) {
                 gradesBtn.disabled = false;
             } else {
                 gradesBtn.disabled = true;
             }
 
-            // Enable "View Portfolio" button if both department, portfolio, and code are selected
             if (department && portfolio && portfolioCode) {
                 portfolioBtn.disabled = false;
             } else {
